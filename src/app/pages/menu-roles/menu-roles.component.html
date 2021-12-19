@@ -1,0 +1,38 @@
+<mat-toolbar>Asignar Roles a Menu</mat-toolbar>
+<div class="example-container">
+  <mat-form-field>
+    <mat-select placeholder="Selecciona Rol" [(ngModel)]="idRolSeleccionado">
+      <mat-option
+        *ngFor="let p of roles$ | async"
+        [value]="p.idRol"
+        (click)="mostrarMenuActuales(p.idRol)"
+      >
+        {{ p.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="asignarMenu()">
+    Asignar Menu
+  </button>
+  <div style="display: flex;justify-content: space-around;">
+    <div id="menusActuales" *ngIf="visualizaMenusActuales">
+      <p *ngIf="noTieneMenus">No tiene asignado menus</p>
+      <div *ngIf="!noTieneMenus">
+        <h2>Lista de Menus Actuales</h2>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let menu of listaMenu">{{
+          menu.nombre
+        }}</mat-list-item>
+      </mat-list>
+      </div>
+    </div>
+    <div id="menusNuevos" *ngIf="visualizaMenusNuevos">
+      <h2>Asignar/Quitar Menus</h2>
+      <mat-selection-list (selectionChange)="onChange($event)" [(ngModel)]="listMenu" [compareWith]="compareFunction">
+        <mat-list-option *ngFor="let menu of (menus$ |async)" [value]="menu">
+          {{menu.nombre}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+  </div>
+</div>

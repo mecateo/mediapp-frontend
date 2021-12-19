@@ -1,0 +1,36 @@
+<mat-toolbar>Asignar Roles a Usuario</mat-toolbar>
+<div class="example-container">
+  <mat-form-field>
+    <mat-select placeholder="Selecciona Usuario" [(ngModel)]="idUsuarioSeleccionado">
+        <mat-option *ngFor="let p of (usuario$ | async)" [value]="p.idUsuario" (click)="mostrarRolesActuales(p)">
+            {{p.username}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<button mat-raised-button color="primary" (click)="asignarRoles()">Asignar Roles</button>
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile>
+    <div id="rolesActuales" *ngIf="visualizaRolesActuales">
+      <h2>Lista de Roles Actuales</h2>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let rol of listaRoles">{{rol.nombre}} ({{rol.descripcion}})</mat-list-item>
+      </mat-list>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div id="rolesNuevos" *ngIf="visualizaRolesNuevos">
+      <h2>Asignar/Quitar Roles</h2>
+      <mat-selection-list (selectionChange)="onChange($event)" [(ngModel)]="listRoles" [compareWith]="compareFunction">
+        <mat-list-option *ngFor="let rol of (roles$ |async)" [value]="rol">
+          {{rol.nombre}}
+        </mat-list-option>
+      </mat-selection-list>
+
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+</div>
+
+
